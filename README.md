@@ -18,6 +18,5 @@ Manuel d'installation
 
 4. Accordez les droits d'écriture à votre serveur web pour uploads/ , cron.last et totalsize
 
-5. Epluchez un oignon :)
 
-Pour toute question, correctif, critique, insulte : arthur.fernandez@toile-libre.org
+Basé sur Pix de toile-libre : http://pix.toile-libre.org/pix-1.1.tar.gz dont la licence originale est AGPL v.3 ; les auteurs de Pix sont  : Arthur FERNANDEZ (arthur.fernandez@toile-libre.org) ; Mickael BLATIERE (mickael@saezlive.net)
