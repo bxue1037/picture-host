@@ -1,22 +1,22 @@
 --
-Manuel d'installation 
+Installation Help
 --
 
-1. Créez une base MySQL
+1. Create a MySQL Database
 
-2. Lui balancer le schema.sql
+2. Execute into this database schema.sql
 
-3. Editez config.php :
-    - Les infos de connexion à la base (host, user, database, password)
-    - Les infos liées à l'upload des images (extensions autorisées, poids max des fichiers envoyés, taille des miniatures, etc)
-    - Le titre, url, et message de footer
-    - Style: le nom du fichier css (dans stylesheets/, sans le .css)
-    - Favicon: le nom de la favicon (dans images/, sans le .ico)
-    - Cookie: le nom du cookie rattaché à pix
-    - Cron: le delais entre deux rebuild du nuage de tag
-    - Tagcloud: les tailles/couleurs du nuage de tag
+3. Edit config.php :
+    - Informations about DB connexion (host, user, database, password)
+    - Informations relating to picture upload (extensions allowed, max weight of files sent, thumbnail size, etc.)
+    - The title, url, and footer message
+    - Style: the name of the css file (in stylesheets/ without .css)
+    - Favicon: the name of the favicon (in images/, without .ico)
+    - Cookie: le name of the cookie attached to picture-host
+    - Cron: the delays between two rebuild of the tagcloud
+    - Tagcloud: the size / color of the tagcloud
 
-4. Accordez les droits d'écriture à votre serveur web pour uploads/ , cron.last et totalsize
+4. Allow the writing rights to your web server for uploads/, cron.last and totalsize
 
 
-Basé sur Pix de toile-libre : http://pix.toile-libre.org/pix-1.1.tar.gz dont la licence originale est AGPL v.3 ; les auteurs de Pix sont  : Arthur FERNANDEZ (arthur.fernandez@toile-libre.org) ; Mickael BLATIERE (mickael@saezlive.net)
+Based on Pix of toile-libre: http://pix.toile-libre.org/pix-1.1.tar.gz whose original license is AGPL v.3; Pix authors are: Arthur FERNANDEZ (arthur.fernandez@toile-libre.org) ; Mickael BLATIERE (mickael@saezlive.net)
