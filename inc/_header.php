@@ -26,7 +26,7 @@
     <head>
         <title><?php echo $config['title']; ?> | Picture Hosting</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="shortcut icon" href="images/<?php echo $config['favicon']; ?>.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="pictures/<?php echo $config['favicon']; ?>.ico" type="picture/x-icon" />
         <link rel="stylesheet" type="text/css" href="stylesheets/<?php echo $config['style']; ?>.css" media="all"  />
     </head>
     <body>
@@ -51,7 +51,7 @@
 
             <a class="logo"href="<?echo $config['url'];?>">
                 <h1><?php echo $config['title']; ?></h1>
-                <h2>Image Hosting</h2>
+                <h2>Picture Hosting</h2>
             </a>
 
             <form class="upload" enctype="multipart/form-data" action="?action=upload" method="post">
@@ -64,7 +64,7 @@
                     <label for"tags">Tags (optional), separate them by commas:</label>
                     <input id="tags" name="tags" type="text"/>
                     <br />
-					<label for="description">Description (optional):</label>
+		    <label for="description">Description (optional):</label>
                     <textarea name="description"></textarea>
                 </div>
 				<br />

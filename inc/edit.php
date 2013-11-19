@@ -20,35 +20,35 @@
 /******************************************************************************/
 
 
-require_once CLASSES . 'Image.php';
+require_once CLASSES . 'Picture.php';
 
 if (isset($img) && file_exists(ORIGINAL . $img)) {
     $original = $config['dir_original'] . $img;
     $resized = $config['dir_resize'] . $img;
     $thumb = $config['dir_thumb'] . $img;
 
-    $image = Image::getFromName($img);
+    $picture = Picture::getFromName($img);
 
-    $tags = ($_POST) ? $_POST['tags'] : implode(', ', $image->getTags());
-    $description = ($_POST) ? $_POST['description'] : $image->getDescription();
-    $private = ($_POST) ? $_POST['private'] : $image->isPrivate();
+    $tags = ($_POST) ? $_POST['tags'] : implode(', ', $picture->getTags());
+    $description = ($_POST) ? $_POST['description'] : $picture->getDescription();
+    $private = ($_POST) ? $_POST['private'] : $picture->isPrivate();
 
     if ($_POST) {
 
-        $success = $image->edit($tags, $description, $private);
+        $success = $picture->edit($tags, $description, $private);
         if (!$success) {
-            $error = $image->error;
+            $error = $picture->error;
         }
 
     }
 
     ?>
 
-        <h2>Modifier les informations d'une image</h2>
+        <h2>Edit information for a picture</h2>
 
         <?php include_once INC . '_error.php';
         if ($success) {
-            echo '<span class="success">Image mise-&agrave;-jour !</span>';
+            echo '<span class="success">Picture up-to-date!</span>';
         } ?>
 
         <span class="preview">
@@ -56,14 +56,13 @@ if (isset($img) && file_exists(ORIGINAL . $img)) {
         </span>
 
         <form action="?action=edit&img=<?= $img; ?>" method="post">
-            <label for="tags">Tags (facultatif) : </label>
+            <label for="tags">Tags (optional) : </label>
             <input type="text" id="tags" name="tags" value="<?php echo $tags; ?>" />
-            <label for="description">Description (facultative) : </label>
+            <label for="description">Description (optional) : </label>
             <textarea type="text" id="description" name="description"><?php echo $description; ?></textarea>
-            <label for"private">Image priv&eacute;e ? par defaut, <b>votre image est publique !</b></label>
+            <label for"private">Private picture?&nbsp;&nbsp;&nbsp;&#10511; </label>
             <input id="private" type="checkbox" name="private" value="1" <?php if ($private) { echo 'checked="1"'; } ?> />
-            Je ne veux pas que mon image apparaisse dans le moteur de recherche
-            <input type="submit" value="Enregistrer" />
+            <input type="submit" value="Save" />
         </form>
 
 <?php } 

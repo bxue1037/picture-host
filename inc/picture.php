@@ -20,36 +20,36 @@
 /******************************************************************************/
 
 
-require_once CLASSES . 'Image.php';
+require_once CLASSES . 'Picture.php';
 
 if (isset($img) && file_exists(ORIGINAL . $img)) {
     $original = $config['dir_original'] . $img;
     $resized = $config['dir_resize'] . $img;
     $thumb = $config['dir_thumb'] . $img;
 
-    $image = Image::getFromName($img);
+    $picture = Picture::getFromName($img);
 ?>
 
-    <div class="image">
+    <div class="picture">
         <span class="thumbnail">
             <a href="<?= $original ?>" rel="milkbox"><img src="<?= $resized ?>"/></a>
         </span>
-        <? if ($image && $image->getUser() && $image->getUser() == $_SESSION['username']) { ?>
+        <? if ($picture && $picture->getUser() && $picture->getUser() == $_SESSION['username']) { ?>
             <span class="actions">
                 <a class="edit" href="?action=edit&img=<?= $img ?>"><img src="pictures/edit.png" /></a>
                 <a class="delete" href="?action=delete&img=<?= $img ?>"><img src="pictures/delete.png" /></a>
             </span>
         <? } ?>
-        <? if ($image) { ?>
-            <span class="author">Picture sent the <? echo $image->getDate(); ?>
-            <? if ($image->getUser()) { ?>
-                par <a href="?action=search&method=author&author=<?echo $image->getUser(); ?>"><?echo $image->getUser(); ?></a>
+        <? if ($picture) { ?>
+            <span class="author">Picture sent the <? echo $picture->getDate(); ?>
+            <? if ($picture->getUser()) { ?>
+                par <a href="?action=search&method=author&author=<?echo $picture->getUser(); ?>"><?echo $picture->getUser(); ?></a>
             <? } ?>
             </span>
-            <span class="metadata"><? echo $image->getWidth() . ' x ' . $image->getHeight(); ?> - <? echo Image::getHumanSize($image->getSize()); ?></span>
-            <span class="description"><?echo $image->getDescription(); ?></span>
+            <span class="metadata"><? echo $picture->getWidth() . ' x ' . $picture->getHeight(); ?> - <? echo Picture::getHumanSize($picture->getSize()); ?></span>
+            <span class="description"><?echo $picture->getDescription(); ?></span>
             <span class="tags">
-            <? foreach ($image->getTags() as $tag) { ?>
+            <? foreach ($picture->getTags() as $tag) { ?>
                 <a href="?action=search&method=tag&tag=<?echo $tag; ?>"><?echo $tag; ?></a>
             <? } ?>
             </span>
@@ -92,7 +92,7 @@ if (isset($img) && file_exists(ORIGINAL . $img)) {
             </td>
         </tr>
         <tr>
-            <td>Insert this pucture into your website: </td>
+            <td>Insert this picture into your website: </td>
             <td>
                 <textarea><a href='<? echo $config['url']; ?>?img=<? echo $img; ?>'><img src='<? echo $config['url'] . $resized; ?>' /></a></textarea>
             </td>
@@ -100,24 +100,24 @@ if (isset($img) && file_exists(ORIGINAL . $img)) {
     </table>
 
     <div class="related">
-        <?php if ($image) $pictures = $image->getRelated();
+        <?php if ($picture) $pictures = $picture->getRelated();
         if (!is_array($pictures) || count($pictures) == 0) {
-            $pictures = Image::getRandom(3);
-            echo "<h4>pictures al&eacute;atoires</h4>";
+            $pictures = Picture::getRandom(3);
+            echo "<h4>Random pictures</h4>";
         } else {
-            echo "<h4>pictures li&eacute;es</h4>";
+            echo "<h4>Related pictures</h4>";
         }
-        foreach ($pictures as $image) {
+        foreach ($pictures as $picture) {
             echo '<p>';
-            echo '  <a href="?img=' . $image->getName() . '">';
-            echo '      <img src="' . $config['dir_thumb'] .$image->getName() . '"/>';
+            echo '  <a href="?img=' . $picture->getName() . '">';
+            echo '      <img src="' . $config['dir_thumb'] .$picture->getName() . '"/>';
             echo '  </a>';
             echo '<p>';
         } ?>
     </div>
 <?php
 } else {
-    $error = "Cette image n'existe pas !";
+    $error = "This picture doesn't exist!";
     include_once INC . '_error.php';
 }
 

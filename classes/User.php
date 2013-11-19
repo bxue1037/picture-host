@@ -161,12 +161,12 @@ class User {
 
         // check username
         if (!$this->_checkUsername()) {
-            $this->error = "Votre username doit faire plus de 3 caract&egrave;res.";
+            $this->error = "Your username must be more than 3 characters.";
             return false;
         }
 
         if (!$this->_checkUsernameIsFree()) {
-            $this->error = "Ce username est d&eacute;j&agrave; prit.";
+            $this->error = "This username is already taken.";
             return false;
         }
 
@@ -182,7 +182,7 @@ class User {
 
         // restore
         $this->_username = $backup;
-        $this->error = 'Une erreur innattendue est survenue, contactez nous.';
+        $this->error = 'An unexpected error has occurred, please contact us.';
         return false;
     } 
 
@@ -190,10 +190,10 @@ class User {
         global $sql;
 
         if ($withImage) {
-            require_once CLASSES . 'Image.php';
-            $images = Image::getFromAuthor($this->_username);
-            foreach ($images as $image) {
-                $image->delete();
+            requirep_once CLASSES . 'Picture.php';
+            $pictures = Picture::getFromAuthor($this->_username);
+            foreach ($pictures as $picture) {
+                $picture->delete();
             }
         }
 
@@ -208,18 +208,18 @@ class User {
         $this->_encryptPassword();
 
         if (!$this->_checkLogin()) {
-            $this->error = "Le mot de passe saisi est erron&eacute;";
+            $this->error = "The password entered is wrong.";
             return false;
         }
 
         if ($new != $confirm) {
-            $this->error = "Les deux mots de passe sont diff&eacute;rent";
+            $this->error = "The two passwords are differents.";
             return false;
         }
 
         $this->_password = $new;
         if (!$this->_checkPassword()) {
-            $this->error = "Votre nouveau mot de passe doit faire plus de 5 caract&egrave;res.";
+            $this->error = "Your new password must be more than 5 characters.";
             return false;
         }
 

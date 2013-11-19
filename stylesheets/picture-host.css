@@ -150,36 +150,36 @@ h2
     margin: 10px auto;
 }
 
-.content .image 
+.content .picture 
 {
     text-align: center;
     position: relative;
 }
 
-.content .image .author, .content .image .description, .content .image .tags 
+.content .picture .author, .content .picture .description, .content .picture .tags 
 {
     display: block;
     clear: both;
 }
 
-.content .image .description 
+.content .picture .description 
 {
     font-style: italic;
 }
 
 
-.content .image .thumbnail 
+.content .picture .thumbnail 
 {
     border: none;
     margin-bottom: 10px;
 }
 
-.content .image .thumbnail .delete, .content .image .thumbnail .edit 
+.content .picture .thumbnail .delete, .content .picture .thumbnail .edit 
 {
 	border: none;
 }
 
-.content .image .thumbnail .delete 
+.content .picture .thumbnail .delete 
 {
     right: 24px;
 }
@@ -299,7 +299,7 @@ h2
     text-decoration: none;
 }
 
-.content .image .actions 
+.content .picture .actions 
 {
     background: #f9F9F9;
     -moz-border-radius: 5px;
@@ -313,7 +313,7 @@ h2
 }
 
 
-.content .image .actions a 
+.content .picture .actions a 
 {
     padding-top: 10px;
     display: block;

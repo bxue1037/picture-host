@@ -25,7 +25,7 @@ require_once CLASSES . 'User.php';
 $user = User::get();
 
 if (!$user) {
-    $error = "Vous devez &ecirc;tre connect&eacute; pour acc&egrave;der &agrave; cette page.";
+    $error = "You must be logged in to access this page.";
     include_once INC . '_error.php';
 } else {
 
@@ -54,37 +54,37 @@ if (!$user) {
         <?php include_once INC . '_error.php';
 
         if ($_POST['delete'] && $success) {
-            echo '<span class="success">Compte supprim&eacute; !</span>';
+            echo '<span class="success">Account deleted!</span>';
         } else {
 
             if ($success) {
-                echo '<span class="success">Compte mis-&agrave;-jour !</span>';
+                echo '<span class="success">Account up-to-date!</span>';
             } ?>
 
             <form class="edit" action="?action=account" method="post">
-                <label for="pseudo">Pseudo : </label>
-                <input type="text" id="pseudo" name="pseudo" value="<?php echo $pseudo; ?>" />
-                <input type="submit" name="edit" value="Changer le pseudo" />
+                <label for="username">Username: </label>
+                <input type="text" id="username" name="username" value="<?php echo $username; ?>" />
+                <input type="submit" name="edit" value="Change my username" />
             </form>
 
             <form class="changePassword" action="?action=account" method="post">
-                <label for="password">Mot de passe actuel : </label>
+                <label for="password">Current Password: </label>
                 <input type="password" id="password" name="password" />
-                <label for="new">Nouveau mot de passe : </label>
+                <label for="new">New password: </label>
                 <input type="password" id="new" name="new" />
-                <label for="confirm">Confirmer votre mot de passe : </label>
+                <label for="confirm">Confirm your password: </label>
                 <input type="password" id="confirm" name="confirm" />
-                <input type="submit" name="changePassword" value="Changer le mot de passe" />
+                <input type="submit" name="changePassword" value="Change the password" />
             </form>
 
             <form action="?action=account" method="post">
                 <input type="hidden" name="all" value="0" />
-                <input type="submit" name="delete" value="Supprimer mon compte" />
+                <input type="submit" name="delete" value="Delete Account" />
             </form>
 
             <form action="?action=account" method="post">
                 <input type="hidden" name="all" value="1" />
-                <input type="submit" name="delete" value="Supprimer mon compte, ainsi que toutes les images associ&eacute;es" />
+                <input type="submit" name="delete" value="Delete my account and all pictures associated" />
             </form>
 
 

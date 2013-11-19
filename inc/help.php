@@ -28,5 +28,5 @@
     <li>Select your picture </li>
     <li>Fill if you want optional informations</li>
     <li>Click on "Send"</li>
-    <li>Wait a few seconds, your image will appear</li>
+    <li>Wait a few seconds, your picture will appear</li>
 </ol>

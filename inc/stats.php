@@ -21,14 +21,14 @@
 
 
 require_once CLASSES . 'User.php';
-require_once CLASSES . 'Image.php';
+require_once CLASSES . 'Picture.php';
 
 ?>
 
 <h2>Statistiques</h2>
 
 <ul>
-    <li><?php echo User::getCount(); ?> utilisateurs enregistr&eacute;s</li>
-    <li><?php echo Image::getCount(); ?> images soit <?php echo Image::getHumanSize(Image::getTotalSize()); ?></li>
-    <li><?php echo Image::getTagsCount(); ?> tags</li>
+    <li><?php echo User::getCount(); ?> registered users</li>
+    <li><?php echo Picture::getCount(); ?> pictures  &#10234;  <?php echo Picture::getHumanSize(Picture::getTotalSize()); ?></li>
+    <li><?php echo Picture::getTagsCount(); ?> tags</li>
 </ul>

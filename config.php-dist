@@ -27,7 +27,7 @@ $config = array(
     'sql_host' => 'localhost',
     'sql_user' => 'root',
     'sql_password' => '',
-    'sql_database' => 'toile-pix',
+    'sql_database' => 'picture-host',
 
     'file_size_max' => 5000, // ko
     'width' => 480,
@@ -42,7 +42,7 @@ $config = array(
 
     'title' => 'Picture Host',
     'url' => 'http://localhost/pix/',
-    'style' => 'flexiden',
+    'style' => 'picture-host',
     'favicon' => 'toile-libre',
     'cookie' => 'picture-host',
     'footer' => 'Developped by <a href="https://github.com/Kcchouette/">Kcchouette</a>.',

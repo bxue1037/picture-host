@@ -21,5 +21,5 @@
 
 
 if (isset($error)) { 
-    echo '<p class="error">Erreur : ' .  $error . '</p>';
+    echo '<p class="error">Error: ' .  $error . '</p>';
 }

@@ -68,7 +68,7 @@ a:hover {
 }
 
 #header h1 {
-    background: transparent url(../images/toile-libre.png) no-repeat right top;
+    background: transparent url(../pictures/toile-libre.png) no-repeat right top;
     margin-top: -30px;
     padding-top: 112px;
     font-size: 0px;
@@ -163,19 +163,19 @@ textarea{
     margin: 10px auto;
 }
 
-.content .image {
+.content .picture {
     text-align: center;
     position: relative;
 }
 
-.content .image .author,
-.content .image .description, 
-.content .image .tags {
+.content .picture .author,
+.content .picture .description, 
+.content .picture .tags {
     display: block;
     clear: both;
 }
 
-.content .image .description {
+.content .picture .description {
     font-style: italic;
 }
 
@@ -183,16 +183,16 @@ textarea{
     border: none;
 }
 
-.content .image .thumbnail {
+.content .picture .thumbnail {
     border: none;
     margin-bottom: 10px;
 }
 
-.content .image .thumbnail .delete,
-.content .image .thumbnail .edit {
+.content .picture .thumbnail .delete,
+.content .picture .thumbnail .edit {
 }
 
-.content .image .thumbnail .delete {
+.content .picture .thumbnail .delete {
     right: 24px;
 }
 
@@ -311,7 +311,7 @@ textarea{
     text-decoration: none;
 }
 
-.content .image .actions {
+.content .picture .actions {
     background: #f9F9F9;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -324,7 +324,7 @@ textarea{
 }
 
 
-.content .image .actions a {
+.content .picture .actions a {
     padding-top: 10px;
     display: block;
 }

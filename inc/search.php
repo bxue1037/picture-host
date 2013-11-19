@@ -20,44 +20,44 @@
 /******************************************************************************/
 
 
-require_once CLASSES . 'Image.php';
+require_once CLASSES . 'Picture.php';
 
 $method = $_GET['method'];
 switch ($method) {
 
     case 'tag':
-        $searchFor = "Images tagg&eacute;es \"". $_GET['tag'] . "\"";
-        $images = Image::getFromTag($_GET['tag']);
+        $searchFor = "Tagged pictures \"". $_GET['tag'] . "\"";
+        $pictures = Picture::getFromTag($_GET['tag']);
         break;
 
     case 'author':
-        $searchFor = "Images envoy&eacute;es par " . $_GET['author'];
-        $images = Image::getFromAuthor($_GET['author']);
+        $searchFor = "Pictures sent by " . $_GET['author'];
+        $pictures = Picture::getFromAuthor($_GET['author']);
         break;
 
     case 'random':
-        $searchFor = "Image al&eacute;atoire...";
-        $images = Image::getRandom();
+        $searchFor = "Random Picture &#8230;";
+        $pictures = Picture::getRandom();
         break;
 
     case 'browse':
-        $searchFor = "Toutes les images";
-        $images = Image::getAll();
+        $searchFor = "All pictures";
+        $pictures = Picture::getAll();
         break;
 }
 
 echo '<h2>' . $searchFor . '</h2>';
-if (count($images) == 0) {
-    echo "Aucune image.";
+if (count($pictures) == 0) {
+    echo "No picture.";
 } else if ($method == 'random') {
-    $image = array_shift($images);
+    $picture = array_shift($pictures);
     ob_clean();
-    header('Location: ' . $config['url'] . '?img=' . $image->getName());
+    header('Location: ' . $config['url'] . '?img=' . $picture->getName());
 } else {
-    foreach ($images as $image) {
+    foreach ($pictures as $picture) {
         echo '<p class="result">';
-        echo '  <a href="?img=' . $image->getName() . '">';
-        echo '      <img src="' . $config['dir_thumb'] .$image->getName() . '"/>';
+        echo '  <a href="?img=' . $picture->getName() . '">';
+        echo '      <img src="' . $config['dir_thumb'] .$picture->getName() . '"/>';
         echo '  </a>';
         echo '</p>';
     } 
