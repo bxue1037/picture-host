@@ -18,14 +18,14 @@
 /******************************************************************************/
 
 
-require_once CLASSES . 'Image.php';
+require_once CLASSES . 'Picture.php';
 
-$image = new Image();
-if ($image->upload($_FILES['img'], $_POST['tags'], $_POST['description'], $_POST['private'])) {
+$picture = new Picture();
+if ($picture->upload($_FILES['img'], $_POST['tags'], $_POST['description'], $_POST['private'])) {
     ob_clean();
-    header('Location: ' . $config['url'] . '?img=' . $image->getName());
+    header('Location: ' . $config['url'] . '?img=' . $picture->getName());
 } else {
-    $error = $image->error;
+    $error = $picture->error;
     include_once INC . '_error.php';
 }
 

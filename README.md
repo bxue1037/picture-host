@@ -6,7 +6,7 @@ Installation Help
 
 2. Execute into this database schema.sql
 
-3. Edit config.php :
+3. Rename config.php-dist in config.php and edit it:
     - Informations about DB connexion (host, user, database, password)
     - Informations relating to picture upload (extensions allowed, max weight of files sent, thumbnail size, etc.)
     - The title, url, and footer message

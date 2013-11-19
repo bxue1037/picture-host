@@ -20,10 +20,10 @@ CREATE TABLE  `uploads` (
 
 CREATE TABLE  `users` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `pseudo` varchar(20) NOT NULL,
+  `username` varchar(20) NOT NULL,
   `session` varchar(40) default NULL,
   `password` varchar(30) default NULL,
-  `membre` int(1) NOT NULL,
+  `member` int(1) NOT NULL,
   `ip` varchar(15) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `id` (`id`)

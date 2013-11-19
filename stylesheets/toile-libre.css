@@ -276,7 +276,8 @@ textarea{
 #tagcloud,
 #search,
 #login,
-#register {
+#register,
+#contact {
     background: #f9F9F9;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;

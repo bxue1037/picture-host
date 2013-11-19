@@ -2,23 +2,25 @@
 
 /******************************************************************************/
 /*                                                                            */
-/* Pix : Hébergement d'images                                                 */
-/*         v1.1 - 17082010                                                    */
+/* Picture Host			                                              */
+/*         v1.1.1		                                              */
 /******************************************************************************/
-/*                                                                            */
-/* Auteur:                                                                    */
-/*     - Arthur FERNANDEZ (arthur.fernandez@toile-libre.org)                  */
-/*     - Mickael BLATIERE (mickael@saezlive.net)                              */
-/*                                                                            */
-/* Contributeurs :                                                            */
-/*     - Nicolas VIVET (nizox@toile-libre.org)                                */
-/*                                                                            */
-/* Licence : aGPL                                                             */
-/*                                                                            */
+/*Picture Host is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Affero Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Picture Host is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Affero Public License for more details.
+
+    You should have received a copy of the GNU General Affero Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.     */
 /******************************************************************************/
 
 
-class Image {
+class Picture {
 
     private $_name;
     private $_extension;
@@ -57,7 +59,7 @@ class Image {
         }
 
         // check file size
-        $this->_size = Image::_getSize($file["tmp_name"]);
+        $this->_size = Picture::_getSize($file["tmp_name"]);
         if (!$this->_checkSize()) {
             $this->error = "Le fichier est trop gros...";
             return false;
@@ -65,13 +67,13 @@ class Image {
 
         // get extension
         switch($file['type']) {
-            case 'image/png':
+            case 'picture/png':
                 $this->_extension = '.png';
                 break;
-            case 'image/jpeg': case 'image/pjpeg':
+            case 'picture/jpeg': case 'picture/pjpeg':
                 $this->_extension = '.jpg';
                 break;
-            case 'image/gif':
+            case 'picture/gif':
                 $this->_extension = '.gif';
                 break;
         }
@@ -96,7 +98,7 @@ class Image {
             return false;
         }
 
-        // build resized image
+        // build resized picture
         $this->_resize(RESIZE, $config['width'], $config['height']);
         $this->_resize(THUMB, $config['width_thumb'], $config['height_thumb']);
 
@@ -112,7 +114,7 @@ class Image {
         $this->_public = !$private + 0;
 
         // author
-        $this->_user = $_SESSION['pseudo'];
+        $this->_user = $_SESSION['username'];
 
         // save into database
         $query = "INSERT INTO uploads (user, description, tags, public, name) VALUES ('" . $sql->escape($this->_user) . "', '" . $sql->escape($this->_description) . "', '" . $sql->escape($this->_tags) . "', " . $this->_public . ", '" . $this->_name . "')";
@@ -169,7 +171,7 @@ class Image {
             if ($index >= count($pounds)) {
                 $index = count($pounds) - 1;
             }
-            $hits = Image::_getTagHits($tag) + $pounds[$index];
+            $hits = Picture::_getTagHits($tag) + $pounds[$index];
 
             $query = "INSERT INTO tags VALUES ('', '" . $sql->escape($tag) . "', " . $hits . ") ON DUPLICATE KEY UPDATE hits = " . $hits;
             if (!$sql->execute($query)) {
@@ -239,7 +241,7 @@ class Image {
             // copy and resize from source
             ImageCopyResampled($img_resized, $img, 0, 0, 0, 0, $width_resized, $height_resized, $this->_width, $this->_height);
 
-            // save new image
+            // save new picture
             $this->_saveTo($img_resized, $target);
 
             // flush
@@ -371,27 +373,27 @@ class Image {
         if (!$tag) return array();
 
         $query = "SELECT * FROM uploads WHERE (public = 1";
-        if ($_SESSION['pseudo']) {
-            $query .= " OR user = '" . $_SESSION['pseudo'] . "'";
+        if ($_SESSION['username']) {
+            $query .= " OR user = '" . $_SESSION['username'] . "'";
         }
         $query .= ") AND tags LIKE '%" . $sql->escape($tag) . "%' ORDER BY name DESC";
 
-        $images = Image::_getFromQuery($query);
+        $pictures = Picture::_getFromQuery($query);
 
-        foreach ($images as $index => $image) {
+        foreach ($pictures as $index => $picture) {
             $valid = false;
-            foreach ($image->getTags() as $t) {
+            foreach ($picture->getTags() as $t) {
                 if ($tag == $t) {
                     $valid = true;
                     break;
                 }
             }
             if (!$valid) {
-                unset($images[$index]);
+                unset($pictures[$index]);
             }
         }
 
-        return $images;
+        return $pictures;
     }
 
     public static function getFromAuthor($author) {
@@ -402,27 +404,27 @@ class Image {
 
         $query = "SELECT * FROM uploads WHERE user = '" . $sql->escape($author) . "'";
 
-        if ($author != $_SESSION['pseudo']) {
+        if ($author != $_SESSION['username']) {
             $query .= " AND public=1";
         }
 
         $query .= " ORDER BY name DESC";
 
-        return Image::_getFromQuery($query);
+        return Picture::_getFromQuery($query);
     }
 
     public static function getAll() {
         $query = "SELECT * FROM uploads WHERE public=1 ORDER BY name DESC";
 
-        return Image::_getFromQuery($query);
+        return Picture::_getFromQuery($query);
     }
 
     public function getRelated() {
-        $result = array(); //Image::getFromAuthor($this->_user);
+        $result = array(); //Picture::getFromAuthor($this->_user);
         $taglist = $this->getTags();
         if (is_array($taglist)) {
             foreach ($taglist as $tag) {
-                $result = array_merge($result, Image::getFromTag($tag));
+                $result = array_merge($result, Picture::getFromTag($tag));
             }
         }
         unset($result[$this->_name]);
@@ -436,14 +438,14 @@ class Image {
 
         $result = array();
         while ($row = $sql->next()) {
-            $image = new Image();
-            $image->_name = $row['name'];
-            $image->_user = $row['user'];
-            $image->_tags = $row['tags'];
-            $image->_public = $row['public'];
-            $image->_description = $row['description'];
+            $picture = new Picture();
+            $picture->_name = $row['name'];
+            $picture->_user = $row['user'];
+            $picture->_tags = $row['tags'];
+            $picture->_public = $row['public'];
+            $picture->_description = $row['description'];
 
-            $result[$row['name']] = $image;
+            $result[$row['name']] = $picture;
         }
         return $result;
 
@@ -453,10 +455,10 @@ class Image {
         global $sql;
 
         $query = "SELECT * FROM uploads WHERE name = '" . $sql->escape($name) . "'";
-        $result = Image::_getFromQuery($query);
+        $result = Picture::_getFromQuery($query);
         if (count($result) == 1) {
-            $image = array_shift($result);
-            return $image;
+            $picture = array_shift($result);
+            return $picture;
         }
         return null;
 
@@ -466,7 +468,7 @@ class Image {
         global $sql;
 
         $query = "SELECT * FROM uploads WHERE public=1 ORDER BY RAND() LIMIT " . $limit;
-        $result = Image::_getFromQuery($query); 
+        $result = Picture::_getFromQuery($query); 
         return $result;
         /*if (count($result) == 1) {
             return $result[0];
@@ -489,7 +491,7 @@ class Image {
     public static function getTotalSize() {
         $total = 0;
         foreach (scandir(ORIGINAL) as $file) {
-            $total += Image::_getSize(ORIGINAL . $file);
+            $total += Picture::_getSize(ORIGINAL . $file);
         }
         return $total;
     }
@@ -538,10 +540,10 @@ class Image {
     }
 
     public static function rebuildTagCloud() {
-        if (Image::resetTags()) {
-            $images = Image::getAll();
-            foreach ($images as $image) {
-                $image->saveTags();
+        if (Picture::resetTags()) {
+            $pictures = Picture::getAll();
+            foreach ($pictures as $picture) {
+                $picture->saveTags();
             }
         }
     }
@@ -571,7 +573,7 @@ class Image {
 /*                                                                            */
 /******************************************************************************/
 /*                                                                            */
-/* Titre          : Fonctions imagecreatefrombmp et imagebmp                  */
+/* Titre          : imagecreatefrombmp and imagebmp functions                  */
 /*                                                                            */
 /* URL            : http://www.phpsources.org/scripts120-PHP.htm              */
 /* Auteur         : kurt67                                                    */

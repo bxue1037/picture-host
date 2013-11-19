@@ -2,31 +2,33 @@
 
 /******************************************************************************/
 /*                                                                            */
-/* Pix : Hébergement d'images                                                 */
-/*         v1.1 - 17082010                                                    */
+/* Picture Host			                                              */
+/*         v1.1.1		                                              */
 /******************************************************************************/
-/*                                                                            */
-/* Auteur:                                                                    */
-/*     - Arthur FERNANDEZ (arthur.fernandez@toile-libre.org)                  */
-/*     - Mickael BLATIERE (mickael@saezlive.net)                              */
-/*                                                                            */
-/* Contributeurs :                                                            */
-/*     - Nicolas VIVET (nizox@toile-libre.org)                                */
-/*                                                                            */
-/* Licence : aGPL                                                             */
-/*                                                                            */
+/*Picture Host is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Affero Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Picture Host is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Affero Public License for more details.
+
+    You should have received a copy of the GNU General Affero Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.     */
 /******************************************************************************/
 
 
 class User {
 
-    private $_pseudo;
+    private $_username;
     private $_password;
     private $_sessionId;
     public $error;
 
-    public function login($pseudo, $password) {
-        $this->_pseudo = htmlspecialchars($pseudo);
+    public function login($username, $password) {
+        $this->_username = htmlspecialchars($username);
         $this->_password = $password;
         $this->_encryptPassword();
 
@@ -34,32 +36,32 @@ class User {
             return $this->_login();
         }
 
-        $this->error = "Mauvais pseudo ou mot de passe.";
+        $this->error = "Username or password don't exist or don't match together";
         return false;
     }
 
     private function _checkLogin() {
         global $sql;
 
-        $query = "SELECT id FROM users WHERE pseudo='" . $sql->escape($this->_pseudo) . "' AND password='" . $this->_password. "'";
+        $query = "SELECT id FROM users WHERE username='" . $sql->escape($this->_username) . "' AND password='" . $this->_password. "'";
         $sql->execute($query);
 
         return $sql->count() == 1;
     }
 
-    public function getPseudo() {
-        return $this->_pseudo;
+    public function getUsername() {
+        return $this->_username;
     }
 
     public static function get() {
         global $sql;
 
-        if ($_SESSION['pseudo']) {
-            $query = "SELECT * FROM users WHERE pseudo = '" . $sql->escape($_SESSION['pseudo']) . "'";
+        if ($_SESSION['username']) {
+            $query = "SELECT * FROM users WHERE username = '" . $sql->escape($_SESSION['username']) . "'";
             $sql->execute($query);
             if ($row = $sql->next()) {
                 $user = new User();
-                $user->_pseudo = $row['pseudo'];
+                $user->_username = $row['username'];
                 return $user;
             }
         }
@@ -71,7 +73,7 @@ class User {
 
         $sessionId =  md5(uniqid(rand(), true));
 
-        $query = "UPDATE users SET session = '" . $sessionId . "' WHERE pseudo = '" . $sql->escape($this->_pseudo) . "'";
+        $query = "UPDATE users SET session = '" . $sessionId . "' WHERE username = '" . $sql->escape($this->_username) . "'";
         if ($sql->execute($query)) {
             ob_clean();
             setcookie($config['cookie'], $sessionId, time()+60*60*24*30); // expire: one month
@@ -89,7 +91,7 @@ class User {
             $query = "SELECT * FROM users WHERE session = '" . $sql->escape($sessionId) . "'";
             $sql->execute($query);
             if ($row = $sql->next()) {
-                $_SESSION['pseudo'] = $row['pseudo'];
+                $_SESSION['username'] = $row['username'];
                 return;
             } 
         }
@@ -105,81 +107,81 @@ class User {
         global $config;
 
         setcookie($config['cookie'], '');
-        $_SESSION['pseudo'] = '';
+        $_SESSION['username'] = '';
         session_destroy();
     }
 
-    public function register($pseudo, $password, $confirm) {
+    public function register($username, $password, $confirm) {
         global $sql;
 
-        $this->_pseudo = htmlspecialchars($pseudo);
+        $this->_username = htmlspecialchars($username);
         $this->_password = $password;
 
-        // check pseudo
-        if (!$this->_checkPseudo()) {
-            $this->error = "Votre pseudo doit faire plus de 3 caract&egrave;res.";
+        // check username
+        if (!$this->_checkUsername()) {
+            $this->error = "Your username must be more than 3 characters.";
             return false;
         }
 
         if ($password != $confirm) {
-            $this->error = "Les deux mots de passe sont diff&eacute;rent.";
+            $this->error = "The two passwords are differents.";
             return false;
         }
 
         // check password
         if (!$this->_checkPassword()) {
-            $this->error = "Votre mot de passe doit faire plus de 5 caract&egrave;res.";
+            $this->error = "Your password must be more than 5 characters.";
             return false;
         }
         $this->_encryptPassword();
 
-        if (!$this->_checkPseudoIsFree()) {
-            $this->error = "Ce pseudo est d&eacute;j&agrave; prit.";
+        if (!$this->_checkUsernameIsFree()) {
+            $this->error = "This username is already picked.";
             return false;
         }
 
-        $query = "INSERT INTO users (pseudo, password, ip)  VALUES('" . $sql->escape($this->_pseudo) . "', '" . $this->_password . "', '" . $_SERVER['REMOTE_ADDR'] . "')";
+        $query = "INSERT INTO users (username, password, ip)  VALUES('" . $sql->escape($this->_username) . "', '" . $this->_password . "', '" . $_SERVER['REMOTE_ADDR'] . "')";
         if ($sql->execute($query)) {
             return $this->_login();
         }
 
-        $this->error = 'Une erreur innattendue est survenue, contactez nous.';
+        $this->error = 'An unexpected error has occurred, please contact us.';
         return false;
 
     } 
 
-    public function edit($pseudo) {
+    public function edit($username) {
         global $sql;
 
         // already ok
-        if ($pseudo == $this->_pseudo) return true;
+        if ($username == $this->_username) return true;
 
-        $backup = $this->_pseudo;
-        $this->_pseudo = htmlspecialchars($pseudo);
+        $backup = $this->_username;
+        $this->_username = htmlspecialchars($username);
 
-        // check pseudo
-        if (!$this->_checkPseudo()) {
-            $this->error = "Votre pseudo doit faire plus de 3 caract&egrave;res.";
+        // check username
+        if (!$this->_checkUsername()) {
+            $this->error = "Votre username doit faire plus de 3 caract&egrave;res.";
             return false;
         }
 
-        if (!$this->_checkPseudoIsFree()) {
-            $this->error = "Ce pseudo est d&eacute;j&agrave; prit.";
+        if (!$this->_checkUsernameIsFree()) {
+            $this->error = "Ce username est d&eacute;j&agrave; prit.";
             return false;
         }
 
-        $query = "UPDATE users SET pseudo = '" . $sql->escape($this->_pseudo) . "' WHERE pseudo = '" . $backup . "'";
+        $query = "UPDATE users SET username = '" . $sql->escape($this->_username) . "' WHERE username = '" . $backup . "'";
         if ($sql->execute($query)) {
 
-             $query = "UPDATE uploads SET user = '" . $sql->escape($this->_pseudo) . "' WHERE user = '" . $backup . "'";
+             $query = "UPDATE uploads SET user = '" . $sql->escape($this->_username) . "' WHERE user = '" . $backup . "'";
              $sql->execute($query);
 
-             $_SESSION['pseudo'] = $this->_pseudo;
+             $_SESSION['username'] = $this->_username;
              return true;
         }
 
         // restore
-        $this->_pseudo = $backup;
+        $this->_username = $backup;
         $this->error = 'Une erreur innattendue est survenue, contactez nous.';
         return false;
     } 
@@ -189,13 +191,13 @@ class User {
 
         if ($withImage) {
             require_once CLASSES . 'Image.php';
-            $images = Image::getFromAuthor($this->_pseudo);
+            $images = Image::getFromAuthor($this->_username);
             foreach ($images as $image) {
                 $image->delete();
             }
         }
 
-        $query = "DELETE FROM users WHERE pseudo = '" . $this->_pseudo . "'";
+        $query = "DELETE FROM users WHERE username = '" . $this->_username . "'";
         return $sql->execute($query);
     }
 
@@ -223,7 +225,7 @@ class User {
 
         $this->_encryptPassword();
 
-        $query = "UPDATE users SET password = '" . $sql->escape($this->_password) . "' WHERE pseudo = '" . $this->_pseudo . "'";
+        $query = "UPDATE users SET password = '" . $sql->escape($this->_password) . "' WHERE username = '" . $this->_username . "'";
         if ($sql->execute($query)) {
             return true;
         }
@@ -235,17 +237,17 @@ class User {
         $this->_password = crypt($this->_password, $this->_password);
     }
 
-    private function _checkPseudoIsFree() {
+    private function _checkUsernameIsFree() {
         global $sql;
 
-        $query = "SELECT COUNT(id) AS count FROM users WHERE pseudo = '" . $sql->escape($this->_pseudo) . "'";
+        $query = "SELECT COUNT(id) AS count FROM users WHERE username = '" . $sql->escape($this->_username) . "'";
         $sql->execute($query);
         $row = $sql->next();
         return $row['count'] == 0;
     }
 
-    private function _checkPseudo() {
-        return strlen($this->_pseudo) >= 3;
+    private function _checkUsername() {
+        return strlen($this->_username) >= 3;
     }
 
     private function _checkPassword() {

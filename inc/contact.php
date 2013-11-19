@@ -1,5 +1,4 @@
-<?php
-
+﻿<?php
 /******************************************************************************/
 /*                                                                            */
 /* Picture Host			                                              */
@@ -18,15 +17,11 @@
     You should have received a copy of the GNU General Affero Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.     */
 /******************************************************************************/
-
-
 ?>
-<h2>Help</h2>
 
-<ol class="howto">
-    <li>Click on "Browse &#8230;" </li>
-    <li>Select your picture </li>
-    <li>Fill if you want optional informations</li>
-    <li>Click on "Send"</li>
-    <li>Wait a few seconds, your image will appear</li>
-</ol>
+    <h2>Contact Us !</h2>
+    <p>To contact us about a bug, improvement, visit <a href="https://github.com/Kcchouette/picture-host/issues/new">this link</a>.
+	<p>To view our bugs, visit <a href="https://github.com/Kcchouette/picture-host/issues">our issues</a>.
+	
+	<p>For another problem, contact us at contact[at]mail[dot]com</p>
+
