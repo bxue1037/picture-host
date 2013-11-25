@@ -190,7 +190,7 @@ class User {
         global $sql;
 
         if ($withImage) {
-            requirep_once CLASSES . 'Picture.php';
+            require_once CLASSES . 'Picture.php';
             $pictures = Picture::getFromAuthor($this->_username);
             foreach ($pictures as $picture) {
                 $picture->delete();
