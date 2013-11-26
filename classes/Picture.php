@@ -67,13 +67,13 @@ class Picture {
 
         // get extension
         switch($file['type']) {
-            case 'picture/png':
+            case 'image/png':
                 $this->_extension = '.png';
                 break;
-            case 'picture/jpeg': case 'picture/pjpeg':
+            case 'image/jpeg': case 'image/pjpeg':
                 $this->_extension = '.jpg';
                 break;
-            case 'picture/gif':
+            case 'image/gif':
                 $this->_extension = '.gif';
                 break;
         }
@@ -287,7 +287,7 @@ class Picture {
 
     public function getSize() { 
         $filename = ORIGINAL . $this->_name;
-        return Image::_getSize($filename); 
+        return Picture::_getSize($filename); 
     }
 
     private static function _getSize($filename) { 

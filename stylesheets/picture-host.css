@@ -143,13 +143,6 @@ h2
     padding: 5px;
 }
 
-.content 
-{
-    clear: both;
-    padding: 20px 0;
-    margin: 10px auto;
-}
-
 .content .picture 
 {
     text-align: center;
@@ -186,13 +179,13 @@ h2
 
 .content .info 
 {
-    width: 598px;
-    text-align: right;
+    width: 100%;
+    text-align: center;
 }
 
 .content .info th 
 {
-    text-align: left;
+    text-align: right;
 }
 
 .content .info th, .content .related h4 {
@@ -207,21 +200,12 @@ h2
 
 .content .info textarea 
 {
-    width: 420px;
-    height: 45px;
-}
-
-.content .related 
-{
-    width: 208px;
-    margin-left: 10px;
-    overflow: auto;
+    width: 100%;	
 }
 
 .content .related, .content .info {
-    height: 328px;
-    float: left;
-    margin-top: 30px;
+    text-align: center;
+	margin-top: 30px;
     padding: 10px;
     color: #EEE;
     border: 1px solid #222222;
@@ -237,6 +221,7 @@ h2
 .content .related p 
 {
     text-align: center;
+	display: inline-block;
     padding-bottom: 10px;
 }
 
